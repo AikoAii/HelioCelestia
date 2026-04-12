@@ -1,0 +1,17 @@
+*.exe
+*.out
+*.app
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.pdb
+*.ilk
+*.app
+.vscode/
+.vs/
+*.swp
+.DS_Store
+Thumbs.db
