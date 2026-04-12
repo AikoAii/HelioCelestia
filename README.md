@@ -6,31 +6,31 @@
 ![CLI](https://img.shields.io/badge/interface-CLI-lightgrey)
 
 ```txt
-kalkulator posisi matahari | c++ | cli tool | astronomi ( •̀ ω •́ )✧
+solar position calculator | c++ | cli tool | astronomy ( •̀ ω •́ )✧
 ```
 
-HelioCelestia adalah **tools berbasis CLI** untuk menghitung posisi Matahari
-(**Altitude & Azimuth**) berdasarkan lokasi pengamat dan waktu sistem.
+HelioCelestia is a **CLI-based tool** for calculating the Sun’s position
+(**Altitude & Azimuth**) based on observer location and system time.
 
-Program ini menggunakan konsep:
+This program is built using:
 
-* Trigonometri bola
-* Waktu astronomi (Julian Date)
-* Koreksi waktu matahari (Equation of Time)
+* Spherical trigonometry
+* Astronomical time (Julian Date)
+* Solar time correction (Equation of Time)
 
-Ringan, akurat, dan cocok untuk belajar maupun eksplorasi ilmiah.
+Lightweight, accurate, and suitable for both learning and real-world exploration.
 
 ---
 
-## ⊹₊ Fitur
+## ⊹₊ Features
 
 ```txt
-[✓] Mendukung koordinat global (latitude, longitude, timezone)
-[✓] Otomatis menggunakan waktu sistem
-[✓] Menggunakan Equation of Time (EoT)
-[✓] Mode CLI (cepat & bisa untuk scripting)
-[✓] Mode interaktif
-[✓] Output JSON (--json)
+[✓] Supports global coordinates (latitude, longitude, timezone)
+[✓] Uses system time automatically
+[✓] Implements Equation of Time (EoT)
+[✓] CLI mode (fast & scriptable)
+[✓] Interactive mode
+[✓] JSON output (--json)
 [✓] Debug mode (compile-time)
 ```
 
@@ -39,16 +39,16 @@ Ringan, akurat, dan cocok untuk belajar maupun eksplorasi ilmiah.
 ## ❏ Requirements
 
 ```bash
-g++ (compiler C++)
+g++ (C++ compiler)
 ```
 
-Tanpa library tambahan. Pure C++.
+No external libraries required. Pure C++.
 
 ---
 
-## ⌯⌲ Cara Menjalankan
+## ⌯⌲ Getting Started
 
-Clone repository:
+Clone the repository:
 
 ```bash
 git clone https://github.com/AikoAii/HelioCelestia.git
@@ -69,21 +69,21 @@ g++ main.cpp SunPosition.cpp utils.cpp -DDEBUG -o heliocelestia
 
 ---
 
-## </> Penggunaan
+## </> Usage
 
-### Mode CLI
+### CLI Mode
 
 ```bash
 ./heliocelestia --lat <value> --lon <value> --tz <value>
 ```
 
-### Mode JSON
+### JSON Mode
 
 ```bash
 ./heliocelestia --lat <value> --lon <value> --tz <value> --json
 ```
 
-### Mode Interaktif
+### Interactive Mode
 
 ```bash
 ./heliocelestia
@@ -91,12 +91,12 @@ g++ main.cpp SunPosition.cpp utils.cpp -DDEBUG -o heliocelestia
 
 ---
 
-## 🗒 Contoh Output
+## 🗒 Example Output
 
 ```txt
------------------- HASIL ------------------
-Tinggi Sudut Matahari (ALT) : 27.3 derajat
-Azimuth Matahari (AZI)      : 110.2 derajat
+------------------ RESULT ------------------
+Solar Altitude (ALT) : 27.3 degrees
+Solar Azimuth  (AZI) : 110.2 degrees
 --------------------------------------------
 ```
 
@@ -109,57 +109,56 @@ Azimuth Matahari (AZI)      : 110.2 derajat
 
 ---
 
-# ➢ Cara Kerja Program (Intuisi → Konsep)
+# ➢ How It Works (Intuition → Concept)
 
-## ⃝ Intuisi Dasar
+## ⃝ Basic Intuition
 
-Posisi Matahari di langit tergantung:
+The position of the Sun in the sky depends on:
 
-* lokasi kita di Bumi
-* waktu saat pengamatan
+* the observer’s location on Earth
+* the time of observation
 
-Tujuan program ini:
+The goal of this program is:
 
-> mengubah posisi Matahari dari sistem astronomi → posisi yang bisa kita lihat di langit
+> to transform the Sun’s position from astronomical coordinates
+> into a position that can be observed directly in the sky
 
 ---
 
-## ⤷ Konsep yang Digunakan
+## ⤷ Concepts Used
 
 ### 1. Julian Date (JD)
 
-Julian Date adalah sistem waktu kontinu dalam astronomi.
-
-Digunakan agar:
+Julian Date is a continuous time system used in astronomy.
 
 ```txt
-perhitungan waktu jadi konsisten secara global
+used to ensure consistent time calculations globally
 ```
 
 ---
 
-### 2. Deklinasi Matahari (DES)
+### 2. Solar Declination (DES)
 
-Deklinasi = sudut Matahari terhadap ekuator langit.
+Declination is the angle between the Sun and the celestial equator.
 
 ```txt
-- berubah setiap hari
-- menentukan tinggi Matahari di langit
+- changes every day
+- determines the Sun’s height in the sky
 ```
 
 ---
 
 ### 3. Equation of Time (EoT)
 
-Matahari tidak selalu tepat di atas kepala jam 12.
+The Sun is not always exactly overhead at 12:00.
 
 ```txt
-penyebab:
-- orbit bumi elips
-- kemiringan sumbu bumi
+caused by:
+- elliptical orbit of Earth
+- axial tilt of Earth
 ```
 
-EoT digunakan untuk mengoreksi waktu menjadi:
+EoT is used to correct time into:
 
 ```txt
 True Solar Time
@@ -169,34 +168,34 @@ True Solar Time
 
 ### 4. Hour Angle (HAS)
 
-Hour Angle menunjukkan posisi Matahari relatif terhadap tengah hari.
+Hour Angle represents the Sun’s position relative to solar noon.
 
 ```txt
-pagi  → negatif
-siang → 0
-sore  → positif
+morning  → negative
+noon     → 0
+afternoon → positive
 ```
 
 ---
 
-### 5. Konversi ke Koordinat Horizontal
+### 5. Conversion to Horizontal Coordinates
 
-Dari:
+From:
 
 ```txt
-Deklinasi + Hour Angle
+Declination + Hour Angle
 ```
 
-Menjadi:
+Into:
 
 ```txt
-Altitude (ALT) → tinggi Matahari dari horizon
-Azimuth  (AZI) → arah Matahari (kompas)
+Altitude (ALT) → height above the horizon
+Azimuth  (AZI) → direction (compass)
 ```
 
 ---
 
-## ✎ Rumus yang Digunakan
+## ✎ Formulas Used
 
 ### - Altitude
 
@@ -225,44 +224,44 @@ HAS = 15 × (Solar Time - 12)
 ### - Solar Time
 
 ```txt
-Solar Time = Clock Time + Koreksi Longitude + EoT
+Solar Time = Clock Time + Longitude Correction + EoT
 ```
 
 ---
 
-## ⟳ Alur Perhitungan
+## ⟳ Calculation Flow
 
 ```txt
-1. Ambil waktu sistem
-2. Hitung Julian Date
-3. Hitung Deklinasi Matahari
-4. Hitung Equation of Time
-5. Hitung True Solar Time
-6. Hitung Hour Angle
-7. Hitung Altitude & Azimuth
-8. Tampilkan hasil
+1. Get system time
+2. Compute Julian Date
+3. Compute Solar Declination
+4. Compute Equation of Time
+5. Compute True Solar Time
+6. Compute Hour Angle
+7. Compute Altitude & Azimuth
+8. Display results
 ```
 
 ---
 
-## ⌬ Flowchart Perhitungan
+## ⌬ Calculation Flowchart
 
 ```mermaid
 flowchart TD
-    A[Mulai] --> B[Ambil Waktu Sistem]
-    B --> C[Hitung Julian Date]
-    C --> D[Hitung Deklinasi Matahari]
-    D --> E[Hitung Equation of Time]
-    E --> F[Hitung True Solar Time]
-    F --> G[Hitung Hour Angle]
-    G --> H[Hitung Altitude]
-    H --> I[Hitung Azimuth]
-    I --> J[Tampilkan Hasil]
+    A[Start] --> B[Get System Time]
+    B --> C[Compute Julian Date]
+    C --> D[Compute Solar Declination]
+    D --> E[Compute Equation of Time]
+    E --> F[Compute True Solar Time]
+    F --> G[Compute Hour Angle]
+    G --> H[Compute Altitude]
+    H --> I[Compute Azimuth]
+    I --> J[Display Results]
 ```
 
 ---
 
-## ⇄ Range Input
+## ⇄ Input Range
 
 ```txt
 Latitude  : -90 → 90
@@ -272,25 +271,25 @@ Timezone  : -12 → 14
 
 ---
 
-## ⊙ Kenapa Project Ini?
+## ⊙ Why This Project?
 
 ```txt
-- Belajar astronomi komputasional
-- Memahami trigonometri bola
-- Membuat CLI tool nyata
-- Menghubungkan matematika dengan dunia nyata
+- Learn computational astronomy
+- Understand spherical trigonometry
+- Build real-world CLI tools
+- Connect mathematics with real-world phenomena
 ```
 
 ---
 
 ## 🗐 License
 
-MIT License — bebas digunakan dan dikembangkan.
+MIT License — free to use and modify.
 
 ---
 
 ```txt
-langit itu bisa dihitung, bukan cuma dilihat
-banyak keajaiban yang terjadi di atas langit
-dan merupakan bentuk kekuasaan Tuhan.
+the sky can be calculated, not just observed
+many wonders exist above us
+and all of it reflects the order of the universe
 ```
