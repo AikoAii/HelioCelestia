@@ -109,9 +109,11 @@ Solar Azimuth  (AZI) : 110.2 degrees
 
 ---
 
-# ➢ How It Works (Intuition → Concept)
+# ⤷ Concepts Used How It Works (Intuition → Concept)
 
-## ⃝ Basic Intuition
+## ⤷ Concepts Used
+
+Basic Intuition
 
 The position of the Sun in the sky depends on:
 
