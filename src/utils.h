@@ -4,9 +4,9 @@
 #include <string>
 
 double getValidatedRangeInput(const std::string &prompt, double min,
-                              double max);
-void clearScreen();
-void clearInputBuffer();
-void printHeader();
+                              double max); // Validasi Input
+void clearScreen();                        // Kontrol layar
+void clearInputBuffer();                   // Input buffer management
+void printHeader();                        // UI header
 
 #endif
