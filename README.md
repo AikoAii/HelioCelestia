@@ -46,7 +46,7 @@ No external libraries required. Pure C++.
 
 ---
 
-## ⌯⌲ Getting Started
+## > Getting Started
 
 Clone the repository:
 
@@ -91,7 +91,7 @@ g++ main.cpp SunPosition.cpp utils.cpp -DDEBUG -o heliocelestia
 
 ---
 
-## 🗒 Example Output
+## > Example Output
 
 ```txt
 ------------------ RESULT ------------------
@@ -109,7 +109,7 @@ Solar Azimuth  (AZI) : 110.2 degrees
 
 ---
 
-# ⤷ Concepts Used How It Works (Intuition → Concept)
+#  Concepts Used How It Works (Intuition → Concept)
 
 ## ⤷ Concepts Used
 
@@ -197,7 +197,7 @@ Azimuth  (AZI) → direction (compass)
 
 ---
 
-## ✎ Formulas Used
+## * Formulas Used
 
 ### - Altitude
 
@@ -263,7 +263,7 @@ flowchart TD
 
 ---
 
-## ⇄ Input Range
+## <-> Input Range
 
 ```txt
 Latitude  : -90 → 90
@@ -284,7 +284,7 @@ Timezone  : -12 → 14
 
 ---
 
-## 🗐 License
+## License
 
 MIT License — free to use and modify.
 
