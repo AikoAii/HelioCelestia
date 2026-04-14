@@ -1,8 +1,8 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
 
-SRC = main.cpp SunPosition.cpp utils.cpp
-OUT = app
+SRC = src/main.cpp src/SunPosition.cpp src/utils.cpp
+OUT = heliocelestia
 
 all:
 	$(CXX) $(CXXFLAGS) $(SRC) -o $(OUT)

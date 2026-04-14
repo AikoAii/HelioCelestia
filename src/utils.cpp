@@ -3,6 +3,7 @@
 #include <iostream>
 #include <limits>
 
+// Validasi input
 double getValidatedRangeInput(const std::string &prompt, double min,
                               double max) {
   double value;
@@ -17,6 +18,7 @@ double getValidatedRangeInput(const std::string &prompt, double min,
   }
 }
 
+// Kontrol layar
 void clearScreen() {
 #if defined(_WIN32)
   system("CLS");
@@ -25,11 +27,13 @@ void clearScreen() {
 #endif
 }
 
+// Pembersih buffer input
 void clearInputBuffer() {
   std::cin.clear();
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
+// UI Header
 void printHeader() {
   clearScreen();
   std::cout << "========================================================\n";
@@ -38,8 +42,7 @@ void printHeader() {
   std::cout << "  MODE : OTOMATIS (Waktu Sistem)\n";
   std::cout << "--------------------------------------------------------\n";
   std::cout << "  INPUT USER\n";
-  std::cout << "  Latitude Pengamat (deg)                      PHI\n";
-  std::cout << "\n";
+  std::cout << "  Latitude Pengamat (deg)                      PHI\n\n";
   std::cout << "  HITUNG OTOMATIS\n";
   std::cout << "  Deklinasi Matahari (deg)                    DES\n";
   std::cout << "  Sudut Jam Matahari (deg)                    HAS\n";

@@ -170,7 +170,7 @@ int main(int argc, char *argv[]) {
 
   } while (yn == 'Y' || yn == 'y');
 
-  // Au ah males mending skroll fesnuk
+  // END
   std::cout << "Program selesai. Sampai jumpa lagi :3!\n";
   return 0;
 }

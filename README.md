@@ -14,9 +14,9 @@ HelioCelestia is a **CLI-based tool** for calculating the Sun’s position
 
 This program is built using:
 
-* Spherical trigonometry
-* Astronomical time (Julian Date)
-* Solar time correction (Equation of Time)
+- Spherical trigonometry
+- Astronomical time (Julian Date)
+- Solar time correction (Equation of Time)
 
 Lightweight, accurate, and suitable for both learning and real-world exploration.
 
@@ -115,8 +115,8 @@ Solar Azimuth  (AZI) : 110.2 degrees
 
 The position of the Sun in the sky depends on:
 
-* the observer’s location on Earth
-* the time of observation
+- the observer’s location on Earth
+- the time of observation
 
 The goal of this program is:
 

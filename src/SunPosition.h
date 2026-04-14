@@ -15,8 +15,8 @@ public:
   static double calculateDeclination(double JD); // Deklinasi matahari
   static double calculateHourAngle(int hour, int minute, int second,
                                    double longitude, double JD,
-                                   double timezone);
-  // static double calculatePrediction(double JD, double timezone);
+                                   double timezone);             // Sudut Jam
+  static double calculatePrediction(double JD, double timezone); // Prediksi
 };
 
 #endif
