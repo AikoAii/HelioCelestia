@@ -58,13 +58,13 @@ cd HelioCelestia
 Compile:
 
 ```bash
-g++ main.cpp SunPosition.cpp utils.cpp -o heliocelestia
+make 
 ```
 
 Debug mode:
 
 ```bash
-g++ main.cpp SunPosition.cpp utils.cpp -DDEBUG -o heliocelestia
+g++ src/main.cpp src/SunPosition.cpp src/utils.cpp -DDEBUG -o heliocelestia
 ```
 
 ---
