@@ -1,4 +1,4 @@
-# HelioCelestia ☀
+# HelioCelestia
 
 ![CI](https://github.com/AikoAii/HelioCelestia/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-green)
