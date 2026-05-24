@@ -1,297 +1,395 @@
-# HelioCelestia ☀︎
+# HelioCelestia ☀
 
+![CI](https://github.com/AikoAii/HelioCelestia/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Language](https://img.shields.io/badge/language-C%2B%2B-blue)
-![Build](https://img.shields.io/badge/build-passing-brightgreen)
-![CLI](https://img.shields.io/badge/interface-CLI-lightgrey)
+![Language](https://img.shields.io/badge/language-C%2B%2B20-blue)
+![CMake](https://img.shields.io/badge/build-CMake-orange)
+![Standard](https://img.shields.io/badge/std-C%2B%2B20-lightblue)
 
-```txt
-solar position calculator | c++ | cli tool | astronomy ( •̀ ω •́ )✧
-```
+> A modern scientific CLI astronomy engine written in C++20.
 
-HelioCelestia is a **CLI-based tool** for calculating the Sun’s position
-(**Altitude & Azimuth**) based on observer location and system time.
+HelioCelestia computes the Sun’s position in the sky for any observer location and time using real astronomical models, spherical trigonometry, and atmospheric correction algorithms.
 
-This program is built using:
+Designed as both:
 
-- Spherical trigonometry
-- Astronomical time (Julian Date)
-- Solar time correction (Equation of Time)
-
-Lightweight, accurate, and suitable for both learning and real-world exploration.
+* a lightweight professional astronomy CLI tool
+* an educational computational astronomy project
 
 ---
 
-## ⊹₊ Features
+# Features
 
-```txt
-[✓] Supports global coordinates (latitude, longitude, timezone)
-[✓] Uses system time automatically
-[✓] Implements Equation of Time (EoT)
-[✓] CLI mode (fast & scriptable)
-[✓] Interactive mode
-[✓] JSON output (--json)
-[✓] Debug mode (compile-time)
-```
-
----
-
-## ❏ Requirements
-
-```bash
-g++ (C++ compiler)
-```
-
-No external libraries required. Pure C++.
+* Julian Date calculation (Meeus Ch.7)
+* Greenwich & Local Sidereal Time
+* Solar equatorial coordinate computation
+* Equatorial → Horizontal coordinate transformation
+* Atmospheric refraction correction
+* Sunrise, Solar Noon, and Sunset calculation
+* Polar day / polar night detection
+* Twilight zone classification
+* JSON output support
+* CLI argument mode
+* Interactive mode
+* Leap-year aware input validation
+* Unit and integration testing
+* GitHub Actions CI pipeline
 
 ---
 
-## > Getting Started
+# Scientific Model
 
-Clone the repository:
+HelioCelestia combines multiple astronomical and mathematical concepts:
+
+* Julian Date system
+* Solar declination models
+* Equation of Time (EoT)
+* Sidereal time computation
+* Spherical trigonometry
+* Coordinate system transformations
+* Atmospheric refraction correction
+
+The project follows references from:
+
+* Jean Meeus — *Astronomical Algorithms*
+* NOAA Solar Calculator
+* Bennett atmospheric refraction model
+
+---
+
+# Requirements
+
+* **C++20** compiler
+
+  * GCC 13+ recommended
+  * Clang 16+ recommended
+* **CMake 3.20+**
+* No external dependencies
+
+---
+
+# Build
 
 ```bash
 git clone https://github.com/AikoAii/HelioCelestia.git
 cd HelioCelestia
+
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
 ```
 
-Compile:
+Binary output:
 
 ```bash
-make 
-```
-
-Debug mode:
-
-```bash
-g++ src/main.cpp src/SunPosition.cpp src/utils.cpp -DDEBUG -o heliocelestia
+build/heliocelestia_cli
 ```
 
 ---
 
-## </> Usage
-
-### CLI Mode
+# Run Tests
 
 ```bash
-./heliocelestia --lat <value> --lon <value> --tz <value>
-```
-
-### JSON Mode
-
-```bash
-./heliocelestia --lat <value> --lon <value> --tz <value> --json
-```
-
-### Interactive Mode
-
-```bash
-./heliocelestia
+ctest --test-dir build --output-on-failure
 ```
 
 ---
 
-## > Example Output
+# Usage
+
+## CLI Mode
+
+```bash
+./build/heliocelestia_cli \
+  --latitude 51.5 --longitude -0.12 \
+  --year 2025 --month 6 --day 21 \
+  --hour 12 --minute 0 --timezone 1
+```
+
+---
+
+## JSON Output
+
+```bash
+./build/heliocelestia_cli \
+  --latitude 51.5 --longitude -0.12 \
+  --year 2025 --month 6 --day 21 \
+  --hour 12 --minute 0 --timezone 1 \
+  --json
+```
+
+---
+
+## Sunrise / Sunset Calculation
+
+```bash
+./build/heliocelestia_cli \
+  --latitude 51.5 --longitude -0.12 \
+  --year 2025 --month 6 --day 21 \
+  --hour 12 --minute 0 --timezone 1 \
+  --sunrise
+```
+
+---
+
+## Verbose Mode
+
+```bash
+./build/heliocelestia_cli ... --verbose
+```
+
+---
+
+## Interactive Mode
+
+```bash
+./build/heliocelestia_cli
+```
+
+---
+
+# Example Output
 
 ```txt
------------------- RESULT ------------------
-Solar Altitude (ALT) : 27.3 degrees
-Solar Azimuth  (AZI) : 110.2 degrees
---------------------------------------------
+╔══════════════════════════════════════════╗
+║           HelioCelestia Report           ║
+╚══════════════════════════════════════════╝
+
+  Solar Position
+  ─────────────────────────────────────────
+  Altitude (geometric)   :    58.2847°
+  Altitude (apparent)    :    58.2874°
+  Azimuth                :   179.4312°
+  Declination            :    23.4282°
+  Right Ascension        :    91.3471°
+  Julian Date            : 2460846.95833
+
+  Status  : Sun Visible
+
+  Day Events
+  ─────────────────────────────────────────
+  Sunrise    : 04:43 UTC
+  Solar Noon : 12:01 UTC
+  Sunset     : 21:21 UTC
 ```
+
+---
+
+## JSON Example
 
 ```json
 {
-  "altitude": 27.3,
-  "azimuth": 110.2
+  "observer": {
+    "latitude_deg": 51.5000,
+    "longitude_deg": -0.1200,
+    "elevation_m": 0.0
+  },
+  "solar_position": {
+    "altitude_deg": 58.2847,
+    "altitude_corrected_deg": 58.2874,
+    "azimuth_deg": 179.4312,
+    "declination_deg": 23.4282,
+    "julian_date": 2460846.95833,
+    "status": "visible"
+  }
 }
 ```
 
 ---
 
-#  Concepts Used How It Works (Intuition → Concept)
+# How It Works
 
-## ⤷ Concepts Used
+## Basic Intuition
 
-Basic Intuition
+The Sun’s apparent position depends on:
 
-The position of the Sun in the sky depends on:
+* observer location on Earth
+* date and time of observation
+* Earth rotation and orbital mechanics
 
-- the observer’s location on Earth
-- the time of observation
-
-The goal of this program is:
-
-> to transform the Sun’s position from astronomical coordinates
-> into a position that can be observed directly in the sky
+HelioCelestia transforms astronomical coordinates into directly observable sky coordinates.
 
 ---
 
-## ⤷ Concepts Used
+# Core Concepts
 
-### 1. Julian Date (JD)
+## 1. Julian Date
 
-Julian Date is a continuous time system used in astronomy.
-
-```txt
-used to ensure consistent time calculations globally
-```
+A continuous astronomical time system used for stable and precise calculations.
 
 ---
 
-### 2. Solar Declination (DES)
+## 2. Solar Declination
 
-Declination is the angle between the Sun and the celestial equator.
+The angular distance between the Sun and the celestial equator.
 
-```txt
-- changes every day
-- determines the Sun’s height in the sky
-```
+This changes continuously throughout the year due to Earth’s axial tilt.
 
 ---
 
-### 3. Equation of Time (EoT)
+## 3. Equation of Time (EoT)
 
-The Sun is not always exactly overhead at 12:00.
+Corrects the difference between:
 
-```txt
-caused by:
-- elliptical orbit of Earth
-- axial tilt of Earth
-```
+* solar time
+* clock time
 
-EoT is used to correct time into:
+Caused by:
 
-```txt
-True Solar Time
-```
+* Earth’s elliptical orbit
+* axial tilt
 
 ---
 
-### 4. Hour Angle (HAS)
+## 4. Hour Angle (HA)
 
-Hour Angle represents the Sun’s position relative to solar noon.
+Represents the Sun’s angular displacement relative to solar noon.
 
-```txt
-morning  → negative
-noon     → 0
-afternoon → positive
-```
+* morning → negative
+* solar noon → zero
+* afternoon → positive
 
 ---
 
-### 5. Conversion to Horizontal Coordinates
+## 5. Horizontal Coordinate Transformation
 
-From:
+Converts astronomical coordinates into:
+
+* Altitude → height above horizon
+* Azimuth → compass direction
+
+---
+
+# Important Equations
+
+## Altitude Formula
 
 ```txt
-Declination + Hour Angle
-```
-
-Into:
-
-```txt
-Altitude (ALT) → height above the horizon
-Azimuth  (AZI) → direction (compass)
+sin(h) = cos(δ)cos(H)cos(φ) + sin(δ)sin(φ)
 ```
 
 ---
 
-## * Formulas Used
-
-### - Altitude
+## Azimuth Formula
 
 ```txt
-sin(ALT) = cos(DES)·cos(HAS)·cos(PHI) + sin(DES)·sin(PHI)
+A = atan2(sin(H), cos(H)sin(φ) − tan(δ)cos(φ))
 ```
 
 ---
 
-### - Azimuth
+## Hour Angle
 
 ```txt
-AZI = atan2( sin(HAS), cos(HAS)·sin(PHI) - tan(DES)·cos(PHI) )
+H = 15 × (Solar Time − 12)
 ```
 
 ---
 
-### - Hour Angle
+# Calculation Pipeline
 
 ```txt
-HAS = 15 × (Solar Time - 12)
-```
-
----
-
-### - Solar Time
-
-```txt
-Solar Time = Clock Time + Longitude Correction + EoT
-```
-
----
-
-## ⟳ Calculation Flow
-
-```txt
-1. Get system time
+1. Get observer date & time
 2. Compute Julian Date
-3. Compute Solar Declination
+3. Compute solar coordinates
 4. Compute Equation of Time
-5. Compute True Solar Time
+5. Compute sidereal time
 6. Compute Hour Angle
-7. Compute Altitude & Azimuth
-8. Display results
+7. Transform coordinates
+8. Apply atmospheric correction
+9. Render final output
 ```
 
 ---
 
-## ⌬ Calculation Flowchart
+# Flowchart
 
 ```mermaid
 flowchart TD
-    A[Start] --> B[Get System Time]
-    B --> C[Compute Julian Date]
-    C --> D[Compute Solar Declination]
-    D --> E[Compute Equation of Time]
-    E --> F[Compute True Solar Time]
-    F --> G[Compute Hour Angle]
-    G --> H[Compute Altitude]
-    H --> I[Compute Azimuth]
-    I --> J[Display Results]
+    A[Input Observer Data] --> B[Julian Date]
+    B --> C[Solar Coordinates]
+    C --> D[Equation of Time]
+    D --> E[Sidereal Time]
+    E --> F[Hour Angle]
+    F --> G[Coordinate Transformation]
+    G --> H[Atmospheric Refraction]
+    H --> I[Render Output]
 ```
 
 ---
 
-## <-> Input Range
+# Input Range
+
+| Parameter | Range      |
+| --------- | ---------- |
+| Latitude  | -90 → 90   |
+| Longitude | -180 → 180 |
+| Timezone  | -12 → 14   |
+
+---
+
+# Architecture
 
 ```txt
-Latitude  : -90 → 90
-Longitude : -180 → 180
-Timezone  : -12 → 14
+heliocelestia/
+├── apps/cli/
+├── include/heliocelestia/
+│   ├── astronomy/
+│   ├── cli/
+│   ├── core/
+│   ├── io/
+│   ├── math/
+│   ├── models/
+│   ├── services/
+│   └── validation/
+├── src/
+├── tests/
+├── docs/
+└── CMakeLists.txt
 ```
 
----
-
-## ⊙ Why This Project?
+See:
 
 ```txt
-- Learn computational astronomy
-- Understand spherical trigonometry
-- Build real-world CLI tools
-- Connect mathematics with real-world phenomena
+docs/architecture.md
 ```
+
+for a detailed layer diagram and system overview.
 
 ---
 
-## License
+# Why This Project?
 
-MIT License — free to use and modify.
+HelioCelestia was built to:
+
+* explore computational astronomy
+* understand spherical trigonometry
+* study scientific software engineering
+* connect mathematics with observable real-world phenomena
+* build a modern production-style C++ CLI application
+
+---
+
+# Scientific References
+
+* Jean Meeus — *Astronomical Algorithms* (2nd Edition)
+
+  * Ch.7 — Julian Date
+  * Ch.12 — Sidereal Time
+  * Ch.15 — Sunrise/Sunset
+  * Ch.25 — Solar Coordinates
+
+* G.G. Bennett (1982)
+  *The Calculation of Astronomical Refraction in Marine Navigation*
+
+* NOAA Solar Calculator
+
+---
+
+# License
+
+MIT License — free to use, study, modify, and distribute.
 
 ---
 
 ```txt
 the sky can be calculated, not just observed
-many wonders exist above us
-and all of it reflects the order of the universe
 ```
