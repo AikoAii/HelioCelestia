@@ -55,6 +55,9 @@ target_sources(
     src/validation/datetime_validator.cpp
 
     # IO
+    src/io/render_style.cpp
+    src/io/section_renderer.cpp
+    src/io/key_value_renderer.cpp
     src/io/formatter.cpp
     src/io/console_renderer.cpp
     src/io/json_formatter.cpp
@@ -121,6 +124,7 @@ heliocelestia_test(coordinate_transform_test   tests/unit/coordinate_transform_t
 heliocelestia_test(refraction_test             tests/unit/refraction_test.cpp)
 heliocelestia_test(sunrise_sunset_test         tests/unit/sunrise_sunset_test.cpp)
 heliocelestia_test(datetime_validator_test     tests/unit/datetime_validator_test.cpp)
+heliocelestia_test(console_renderer_test       tests/unit/console_renderer_test.cpp)
 
 # Integration tests
 heliocelestia_test(solar_position_test         tests/integration/solar_position_test.cpp)

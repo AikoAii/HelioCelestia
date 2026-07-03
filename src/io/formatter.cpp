@@ -1,5 +1,8 @@
 #include "heliocelestia/io/formatter.hpp"
 
+#include "heliocelestia/io/key_value_renderer.hpp"
+#include "heliocelestia/io/section_renderer.hpp"
+
 #include <cmath>
 #include <iomanip>
 #include <sstream>
@@ -39,58 +42,55 @@ std::string formatUtcTime(const double fractionalHours)
     return ss.str();
 }
 
+std::string formatFixed(const double value, const int precision = 4)
+{
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(precision) << value;
+    return ss.str();
+}
+
 } // anonymous namespace
 
 std::string formatSolarPosition(
     const models::SolarPosition&                position,
-    const std::optional<models::SunriseResult>& sunrise
+    const std::optional<models::SunriseResult>& sunrise,
+    RenderStyle                                 style
 )
 {
     std::ostringstream out;
 
-    out << std::fixed << std::setprecision(4);
+    const SectionRenderer sections { style };
+    const KeyValueRenderer kv { style };
 
-    out << "╔══════════════════════════════════════════╗\n";
-    out << "║           HelioCelestia Report           ║\n";
-    out << "╚══════════════════════════════════════════╝\n\n";
+    out << sections.banner(
+        "HelioCelestia Report",
+        "Scientific Solar Position Engine"
+    );
 
     //
     // Solar position
     //
 
-    out << "  Solar Position\n";
-    out << "  ─────────────────────────────────────────\n";
+    out << sections.section("Solar Position");
 
-    out << "  Altitude (geometric)   : "
-        << std::setw(10) << position.altitudeDegrees
-        << "°\n";
-
-    out << "  Altitude (apparent)    : "
-        << std::setw(10) << position.altitudeCorrectedDegrees
-        << "°  (refraction corrected)\n";
-
-    out << "  Azimuth                : "
-        << std::setw(10) << position.azimuthDegrees
-        << "°\n";
-
-    out << "  Declination            : "
-        << std::setw(10) << position.declinationDegrees
-        << "°\n";
-
-    out << "  Right Ascension        : "
-        << std::setw(10) << position.rightAscensionDegrees
-        << "°\n";
-
-    out << "  Julian Date            : "
-        << std::setprecision(5)
-        << position.julianDate
-        << "\n";
+    out << kv.render("Altitude (geometric)", formatFixed(position.altitudeDegrees), "deg");
+    out << kv.render(
+        "Altitude (apparent)",
+        formatFixed(position.altitudeCorrectedDegrees),
+        "deg",
+        "(refraction corrected)"
+    );
+    out << kv.render("Azimuth", formatFixed(position.azimuthDegrees), "deg");
+    out << kv.render("Declination", formatFixed(position.declinationDegrees), "deg");
+    out << kv.render("Right Ascension", formatFixed(position.rightAscensionDegrees), "deg");
+    out << kv.render("Julian Date", formatFixed(position.julianDate, 5));
 
     out << "\n";
 
-    out << "  Status  : "
-        << skyStatusLabel(position.altitudeCorrectedDegrees)
-        << "\n";
+    out << kv.render(
+        "Status",
+        skyStatusLabel(position.altitudeCorrectedDegrees)
+    );
 
     //
     // Sunrise / sunset section (shown only when requested)
@@ -101,22 +101,27 @@ std::string formatSolarPosition(
         const auto& sr = *sunrise;
 
         out << "\n";
-        out << "  Day Events\n";
-        out << "  ─────────────────────────────────────────\n";
+        out << sections.section("Day Events");
 
         if (sr.isPolarDay) {
-            out << "  Polar Day  : Sun remains above the horizon all day.\n";
+            out << kv.render(
+                "Polar Day",
+                "Sun remains above the horizon all day."
+            );
         } else if (sr.isPolarNight) {
-            out << "  Polar Night: Sun remains below the horizon all day.\n";
+            out << kv.render(
+                "Polar Night",
+                "Sun remains below the horizon all day."
+            );
         } else {
             if (sr.sunriseUtcHours.has_value()) {
-                out << "  Sunrise    : " << formatUtcTime(*sr.sunriseUtcHours) << "\n";
+                out << kv.render("Sunrise", formatUtcTime(*sr.sunriseUtcHours));
             }
 
-            out << "  Solar Noon : " << formatUtcTime(sr.solarNoonUtcHours) << "\n";
+            out << kv.render("Solar Noon", formatUtcTime(sr.solarNoonUtcHours));
 
             if (sr.sunsetUtcHours.has_value()) {
-                out << "  Sunset     : " << formatUtcTime(*sr.sunsetUtcHours) << "\n";
+                out << kv.render("Sunset", formatUtcTime(*sr.sunsetUtcHours));
             }
         }
     }

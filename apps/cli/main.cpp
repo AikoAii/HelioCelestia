@@ -21,6 +21,7 @@ int main(int argc, char* argv[])
     bool showSunrise = false;
     bool jsonOutput  = false;
     bool verbose     = false;
+    bool asciiOutput = false;
 
     // ─────────────────────────────────────────────────────────
     // CLI mode — all inputs from command-line flags
@@ -42,6 +43,7 @@ int main(int argc, char* argv[])
         showSunrise = args.showSunrise;
         jsonOutput  = args.jsonOutput;
         verbose     = args.verbose;
+        asciiOutput = args.asciiOutput;
 
     }
 
@@ -152,7 +154,12 @@ int main(int argc, char* argv[])
     if (jsonOutput) {
         std::cout << io::formatJson(observer, dateTime, position, sunrise);
     } else {
-        io::ConsoleRenderer renderer;
+        io::RenderStyle style {};
+        if (asciiOutput) {
+            style.glyphMode = io::GlyphMode::Ascii;
+        }
+
+        io::ConsoleRenderer renderer { style };
         renderer.renderSolarPosition(position, sunrise);
     }
 

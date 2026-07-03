@@ -71,6 +71,11 @@ ParsedArguments ArgumentParser::parse(
             continue;
         }
 
+        if (flag == "--ascii") {
+            args.asciiOutput = true;
+            continue;
+        }
+
         //
         // Value flags — require the next token.
         //
@@ -190,7 +195,8 @@ void ArgumentParser::printHelp() const
         << "Output:\n"
         << "  --json                Print result as JSON\n"
         << "  --sunrise             Include sunrise / solar noon / sunset\n"
-        << "  --verbose             Show additional diagnostic information\n\n"
+        << "  --verbose             Show additional diagnostic information\n"
+        << "  --ascii               Use ASCII output instead of Unicode box drawing\n\n"
         << "Help:\n"
         << "  --help, -h            Show this message\n\n"
         << "Examples:\n"
