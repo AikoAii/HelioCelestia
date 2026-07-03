@@ -64,7 +64,8 @@ std::string formatJson(
     const models::Observer&                     observer,
     const core::DateTime&                       dateTime,
     const models::SolarPosition&                position,
-    const std::optional<models::SunriseResult>& sunrise
+    const std::optional<models::SunriseResult>& sunrise,
+    const std::optional<models::LunarPosition>& moon
 )
 {
     std::ostringstream out;
@@ -135,6 +136,19 @@ std::string formatJson(
             out << "    \"sunset\":      null\n";
         }
 
+        out << "  }";
+    }
+
+    if (moon.has_value()) {
+        out << ",\n";
+        out << "  \"lunar_position\": {\n";
+        out << "    \"altitude_deg\":           " << jsonReal(moon->altitudeDegrees)          << ",\n";
+        out << "    \"azimuth_deg\":            " << jsonReal(moon->azimuthDegrees)           << ",\n";
+        out << "    \"declination_deg\":        " << jsonReal(moon->declinationDegrees)       << ",\n";
+        out << "    \"right_ascension_deg\":    " << jsonReal(moon->rightAscensionDegrees)    << ",\n";
+        out << "    \"ecliptic_longitude_deg\": " << jsonReal(moon->eclipticLongitudeDegrees) << ",\n";
+        out << "    \"ecliptic_latitude_deg\":  " << jsonReal(moon->eclipticLatitudeDegrees)  << ",\n";
+        out << "    \"distance_km\":            " << jsonReal(moon->distanceKilometers, 0)    << "\n";
         out << "  }";
     }
 

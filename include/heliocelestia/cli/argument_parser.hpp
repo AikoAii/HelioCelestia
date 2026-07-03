@@ -12,6 +12,7 @@ struct ParsedArguments {
     bool jsonOutput { false };
     bool verbose { false };
     bool asciiOutput { false };
+    bool showMoon { false };
     bool valid { false };
 };
 

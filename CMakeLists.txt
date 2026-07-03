@@ -43,6 +43,7 @@ target_sources(
     src/astronomy/julian.cpp
     src/astronomy/sidereal.cpp
     src/astronomy/solar_model.cpp
+    src/astronomy/lunar_model.cpp
     src/astronomy/coordinate_transform.cpp
     src/astronomy/refraction.cpp
     src/astronomy/sunrise_sunset.cpp
@@ -120,6 +121,7 @@ heliocelestia_test(angle_test                  tests/unit/angle_test.cpp)
 heliocelestia_test(julian_test                 tests/unit/julian_test.cpp)
 heliocelestia_test(sidereal_test               tests/unit/sidereal_test.cpp)
 heliocelestia_test(solar_model_test            tests/unit/solar_model_test.cpp)
+heliocelestia_test(lunar_model_test            tests/unit/lunar_model_test.cpp)
 heliocelestia_test(coordinate_transform_test   tests/unit/coordinate_transform_test.cpp)
 heliocelestia_test(refraction_test             tests/unit/refraction_test.cpp)
 heliocelestia_test(sunrise_sunset_test         tests/unit/sunrise_sunset_test.cpp)
@@ -129,3 +131,4 @@ heliocelestia_test(console_renderer_test       tests/unit/console_renderer_test.
 # Integration tests
 heliocelestia_test(solar_position_test         tests/integration/solar_position_test.cpp)
 heliocelestia_test(solar_position_full_test    tests/integration/solar_position_full_test.cpp)
+heliocelestia_test(lunar_position_test         tests/integration/lunar_position_test.cpp)

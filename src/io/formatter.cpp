@@ -54,7 +54,8 @@ std::string formatFixed(const double value, const int precision = 4)
 std::string formatSolarPosition(
     const models::SolarPosition&                position,
     const std::optional<models::SunriseResult>& sunrise,
-    RenderStyle                                 style
+    RenderStyle                                 style,
+    const std::optional<models::LunarPosition>& moon
 )
 {
     std::ostringstream out;
@@ -124,6 +125,19 @@ std::string formatSolarPosition(
                 out << kv.render("Sunset", formatUtcTime(*sr.sunsetUtcHours));
             }
         }
+    }
+
+    if (moon.has_value()) {
+        out << "\n";
+        out << sections.section("Moon Position");
+
+        out << kv.render("Altitude", formatFixed(moon->altitudeDegrees), "deg");
+        out << kv.render("Azimuth", formatFixed(moon->azimuthDegrees), "deg");
+        out << kv.render("Declination", formatFixed(moon->declinationDegrees), "deg");
+        out << kv.render("Right Ascension", formatFixed(moon->rightAscensionDegrees), "deg");
+        out << kv.render("Ecliptic Longitude", formatFixed(moon->eclipticLongitudeDegrees), "deg");
+        out << kv.render("Ecliptic Latitude", formatFixed(moon->eclipticLatitudeDegrees), "deg");
+        out << kv.render("Distance", formatFixed(moon->distanceKilometers, 0), "km");
     }
 
     out << "\n";

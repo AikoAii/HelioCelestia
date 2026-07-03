@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
     bool jsonOutput  = false;
     bool verbose     = false;
     bool asciiOutput = false;
+    bool showMoon    = false;
 
     // ─────────────────────────────────────────────────────────
     // CLI mode — all inputs from command-line flags
@@ -44,6 +45,7 @@ int main(int argc, char* argv[])
         jsonOutput  = args.jsonOutput;
         verbose     = args.verbose;
         asciiOutput = args.asciiOutput;
+        showMoon    = args.showMoon;
 
     }
 
@@ -127,9 +129,14 @@ int main(int argc, char* argv[])
         service.calculateSolarPosition(observer, dateTime);
 
     std::optional<models::SunriseResult> sunrise = std::nullopt;
+    std::optional<models::LunarPosition> moon = std::nullopt;
 
     if (showSunrise) {
         sunrise = service.calculateSunriseSunset(observer, dateTime);
+    }
+
+    if (showMoon) {
+        moon = service.calculateLunarPosition(observer, dateTime);
     }
 
     // ─────────────────────────────────────────────────────────
@@ -152,7 +159,7 @@ int main(int argc, char* argv[])
     // ─────────────────────────────────────────────────────────
 
     if (jsonOutput) {
-        std::cout << io::formatJson(observer, dateTime, position, sunrise);
+        std::cout << io::formatJson(observer, dateTime, position, sunrise, moon);
     } else {
         io::RenderStyle style {};
         if (asciiOutput) {
@@ -160,7 +167,7 @@ int main(int argc, char* argv[])
         }
 
         io::ConsoleRenderer renderer { style };
-        renderer.renderSolarPosition(position, sunrise);
+        renderer.renderSolarPosition(position, sunrise, moon);
     }
 
     return 0;

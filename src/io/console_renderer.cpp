@@ -13,10 +13,11 @@ ConsoleRenderer::ConsoleRenderer(RenderStyle style)
 
 void ConsoleRenderer::renderSolarPosition(
     const models::SolarPosition&                position,
-    const std::optional<models::SunriseResult>& sunrise
+    const std::optional<models::SunriseResult>& sunrise,
+    const std::optional<models::LunarPosition>& moon
 ) const
 {
-    std::cout << formatSolarPosition(position, sunrise, style_);
+    std::cout << formatSolarPosition(position, sunrise, style_, moon);
 }
 
 } // namespace heliocelestia::io

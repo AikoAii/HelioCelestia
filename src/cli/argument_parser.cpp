@@ -66,6 +66,11 @@ ParsedArguments ArgumentParser::parse(
             continue;
         }
 
+        if (flag == "--moon") {
+            args.showMoon = true;
+            continue;
+        }
+
         if (flag == "--verbose") {
             args.verbose = true;
             continue;
@@ -195,6 +200,7 @@ void ArgumentParser::printHelp() const
         << "Output:\n"
         << "  --json                Print result as JSON\n"
         << "  --sunrise             Include sunrise / solar noon / sunset\n"
+        << "  --moon                Include Moon position\n"
         << "  --verbose             Show additional diagnostic information\n"
         << "  --ascii               Use ASCII output instead of Unicode box drawing\n\n"
         << "Help:\n"
@@ -209,6 +215,11 @@ void ArgumentParser::printHelp() const
         << "                    --year 2025 --month 6 --day 21 \\\n"
         << "                    --hour 12 --minute 0 --timezone 1 \\\n"
         << "                    --json --sunrise\n\n"
+        << "  # Include Moon position:\n"
+        << "  heliocelestia_cli --latitude 51.5 --longitude -0.12 \\\n"
+        << "                    --year 2025 --month 6 --day 21 \\\n"
+        << "                    --hour 12 --minute 0 --timezone 0 \\\n"
+        << "                    --moon\n\n"
         << "  # Interactive mode (no arguments):\n"
         << "  heliocelestia_cli\n\n"
         << "Run without arguments for the interactive prompt.\n";

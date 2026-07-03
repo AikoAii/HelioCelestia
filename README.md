@@ -24,6 +24,7 @@ Designed as both:
 * Equatorial → Horizontal coordinate transformation
 * Atmospheric refraction correction
 * Sunrise, Solar Noon, and Sunset calculation
+* Moon position calculation
 * Polar day / polar night detection
 * Twilight zone classification
 * JSON output support
@@ -46,6 +47,7 @@ HelioCelestia combines multiple astronomical and mathematical concepts:
 * Spherical trigonometry
 * Coordinate system transformations
 * Atmospheric refraction correction
+* Low-precision lunar position modelling
 
 The project follows references from:
 
@@ -129,6 +131,21 @@ ctest --test-dir build --output-on-failure
 
 ---
 
+## Moon Position
+
+```bash
+./build/heliocelestia_cli \
+  --latitude 51.5 --longitude -0.12 \
+  --year 2025 --month 6 --day 21 \
+  --hour 12 --minute 0 --timezone 0 \
+  --moon
+```
+
+Moon output includes altitude, azimuth, equatorial coordinates, ecliptic
+coordinates, and approximate Earth-Moon distance.
+
+---
+
 ## Verbose Mode
 
 ```bash
@@ -168,6 +185,12 @@ ctest --test-dir build --output-on-failure
   Sunrise    : 04:43 UTC
   Solar Noon : 12:01 UTC
   Sunset     : 21:21 UTC
+
+  Moon Position
+  ─────────────────────────────────────────
+  Altitude          :    12.3000°
+  Azimuth           :   210.4000°
+  Distance          :    380000 km
 ```
 
 ---

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "heliocelestia/core/datetime.hpp"
+#include "heliocelestia/models/lunar_position.hpp"
 #include "heliocelestia/models/observer.hpp"
 #include "heliocelestia/models/solar_position.hpp"
 #include "heliocelestia/models/sunrise_result.hpp"
@@ -17,6 +18,11 @@ public:
     models::SunriseResult calculateSunriseSunset(
         const models::Observer& observer,
         const core::DateTime& date
+    ) const noexcept;
+
+    models::LunarPosition calculateLunarPosition(
+        const models::Observer& observer,
+        const core::DateTime& dateTime
     ) const noexcept;
 };
 

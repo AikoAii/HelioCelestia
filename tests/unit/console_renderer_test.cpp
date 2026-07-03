@@ -17,6 +17,17 @@ int main()
         .julianDate = 2460848.0
     };
 
+    const models::LunarPosition moon {
+        .altitudeDegrees = 12.3,
+        .azimuthDegrees = 210.4,
+        .declinationDegrees = -12.5,
+        .rightAscensionDegrees = 330.2,
+        .eclipticLongitudeDegrees = 315.0,
+        .eclipticLatitudeDegrees = 2.1,
+        .distanceKilometers = 380000.0,
+        .julianDate = 2460848.0
+    };
+
     const std::string unicodeOutput =
         io::formatSolarPosition(position, std::nullopt);
 
@@ -24,6 +35,12 @@ int main()
     assert(unicodeOutput.find("Solar Position") != std::string::npos);
     assert(unicodeOutput.find("Altitude (geometric)") != std::string::npos);
     assert(unicodeOutput.find("╭") != std::string::npos);
+
+    const std::string moonOutput =
+        io::formatSolarPosition(position, std::nullopt, {}, moon);
+
+    assert(moonOutput.find("Moon Position") != std::string::npos);
+    assert(moonOutput.find("Distance") != std::string::npos);
 
     io::RenderStyle asciiStyle {};
     asciiStyle.glyphMode = io::GlyphMode::Ascii;
