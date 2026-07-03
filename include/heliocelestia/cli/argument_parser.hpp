@@ -13,6 +13,7 @@ struct ParsedArguments {
     bool verbose { false };
     bool asciiOutput { false };
     bool showMoon { false };
+    bool tuiMode { false };
     bool valid { false };
 };
 

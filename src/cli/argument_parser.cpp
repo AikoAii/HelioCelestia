@@ -71,6 +71,11 @@ ParsedArguments ArgumentParser::parse(
             continue;
         }
 
+        if (flag == "--tui") {
+            args.tuiMode = true;
+            continue;
+        }
+
         if (flag == "--verbose") {
             args.verbose = true;
             continue;
@@ -201,6 +206,7 @@ void ArgumentParser::printHelp() const
         << "  --json                Print result as JSON\n"
         << "  --sunrise             Include sunrise / solar noon / sunset\n"
         << "  --moon                Include Moon position\n"
+        << "  --tui                 Open the interactive terminal UI\n"
         << "  --verbose             Show additional diagnostic information\n"
         << "  --ascii               Use ASCII output instead of Unicode box drawing\n\n"
         << "Help:\n"
@@ -220,9 +226,11 @@ void ArgumentParser::printHelp() const
         << "                    --year 2025 --month 6 --day 21 \\\n"
         << "                    --hour 12 --minute 0 --timezone 0 \\\n"
         << "                    --moon\n\n"
+        << "  # Interactive TUI mode:\n"
+        << "  heliocelestia_cli --tui\n\n"
         << "  # Interactive mode (no arguments):\n"
         << "  heliocelestia_cli\n\n"
-        << "Run without arguments for the interactive prompt.\n";
+        << "Run without arguments for the interactive terminal UI.\n";
 }
 
 } // namespace heliocelestia::cli

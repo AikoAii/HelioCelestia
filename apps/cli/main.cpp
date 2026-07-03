@@ -2,6 +2,7 @@
 #include <optional>
 
 #include "heliocelestia/cli/argument_parser.hpp"
+#include "heliocelestia/cli/interactive_tui.hpp"
 
 #include "heliocelestia/io/console_renderer.hpp"
 #include "heliocelestia/io/json_formatter.hpp"
@@ -23,6 +24,7 @@ int main(int argc, char* argv[])
     bool verbose     = false;
     bool asciiOutput = false;
     bool showMoon    = false;
+    bool tuiMode     = false;
 
     // ─────────────────────────────────────────────────────────
     // CLI mode — all inputs from command-line flags
@@ -46,6 +48,7 @@ int main(int argc, char* argv[])
         verbose     = args.verbose;
         asciiOutput = args.asciiOutput;
         showMoon    = args.showMoon;
+        tuiMode     = args.tuiMode;
 
     }
 
@@ -54,45 +57,13 @@ int main(int argc, char* argv[])
     // ─────────────────────────────────────────────────────────
 
     else {
+        cli::InteractiveTui tui;
+        return tui.run(std::cin, std::cout);
+    }
 
-        std::cout
-            << "╔══════════════════════════════════════════╗\n"
-            << "║             HelioCelestia                ║\n"
-            << "║    Scientific Solar Position Engine      ║\n"
-            << "╚══════════════════════════════════════════╝\n\n";
-
-        std::cout << "Observer Coordinates\n";
-
-        std::cout << "  Latitude   (–90 to +90)    : ";
-        std::cin  >> observer.latitudeDegrees;
-
-        std::cout << "  Longitude  (–180 to +180)  : ";
-        std::cin  >> observer.longitudeDegrees;
-
-        std::cout << "  Elevation  (metres, 0)     : ";
-        std::cin  >> observer.elevationMeters;
-
-        std::cout << "\nDate & Time\n";
-
-        std::cout << "  Year      : "; std::cin >> dateTime.year;
-        std::cout << "  Month     : "; std::cin >> dateTime.month;
-        std::cout << "  Day       : "; std::cin >> dateTime.day;
-        std::cout << "  Hour      : "; std::cin >> dateTime.hour;
-        std::cout << "  Minute    : "; std::cin >> dateTime.minute;
-
-        std::cout << "  Timezone  (UTC offset, e.g. 7 for UTC+7): ";
-        std::cin  >> dateTime.timezoneOffsetHours;
-
-        dateTime.second              = 0.0;
-        observer.timezoneOffsetHours = dateTime.timezoneOffsetHours;
-
-        std::cout << "\nOptions\n";
-        std::cout << "  Show sunrise/sunset? (1=yes, 0=no): ";
-        int srInput = 0;
-        std::cin >> srInput;
-        showSunrise = (srInput == 1);
-
-        std::cout << "\n";
+    if (tuiMode) {
+        cli::InteractiveTui tui;
+        return tui.run(std::cin, std::cout);
     }
 
     // ─────────────────────────────────────────────────────────

@@ -65,6 +65,7 @@ target_sources(
 
     # CLI
     src/cli/argument_parser.cpp
+    src/cli/interactive_tui.cpp
 )
 
 target_include_directories(
